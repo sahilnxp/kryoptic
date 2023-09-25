@@ -30,6 +30,8 @@ mod interface {
     pub const KRYERR_OFFSET: CK_ULONG = 485259;
     pub const KRYERR_TOKEN_NOT_INITIALIZED: CK_ULONG =
         CKR_VENDOR_DEFINED + KRYERR_OFFSET + 1;
+
+    include!("nettle_bindings.rs");
 }
 
 mod attribute;
