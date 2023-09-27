@@ -5,12 +5,13 @@ use super::attribute;
 use super::error;
 use super::interface;
 use super::object;
+use super::token;
 use super::{attr_element, bytes_attr_not_empty, err_rv};
 use attribute::{from_bytes, from_ulong};
 use error::{KError, KResult};
 use interface::*;
 use object::{
-    Object, ObjectAttr, ObjectTemplate, CommonKeyTemplate, PrivKeyTemplate, PubKeyTemplate,
+    Object, ObjectAttr, ObjectType, ObjectTemplate, CommonKeyTemplate, PrivKeyTemplate, PubKeyTemplate, ObjectTemplates
 };
 use std::fmt::Debug;
 
@@ -160,4 +161,16 @@ impl PrivKeyTemplate for RSAPrivTemplate {
     }
 }
 
+pub fn register(mechs: &mut token::Mechanisms, ot: &mut ObjectTemplates) {
 
+    mechs.add_mechanism(
+        CKM_RSA_PKCS,
+        CK_MECHANISM_INFO {
+            ulMinKeySize: 1024,
+            ulMaxKeySize: 4096,
+            flags: CKF_ENCRYPT | CKF_DECRYPT,
+        });
+
+    ot.add_template(ObjectType::RSAPubKey, Box::new(RSAPubTemplate::new()));
+    ot.add_template(ObjectType::RSAPrivKey, Box::new(RSAPrivTemplate::new()));
+}
