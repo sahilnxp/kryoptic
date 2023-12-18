@@ -39,9 +39,9 @@ mod interface {
 }
 
 mod attribute;
-mod cryptography;
 mod error;
 mod mechanism;
+mod nettle;
 mod object;
 mod rng;
 mod session;
